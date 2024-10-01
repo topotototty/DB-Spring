@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Создать заказ</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div class="container mt-5">
+  <h1 class="mb-4">Создать новый заказ</h1>
+
+  <form th:action="@{/orders}" th:object="${order}" method="post" class="row g-3">
+    <div class="col-md-6">
+      <label for="customer" class="form-label">Покупатель</label>
+      <select th:field="*{customer}" class="form-select" id="customer">
+        <option value="" disabled selected>Выберите покупателя</option>
+        <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.name}"></option>
+      </select>
+      <div class="text-danger mb-2" th:if="${#fields.hasErrors('customer')}" th:errors="*{customer}"></div>
+    </div>
+
+    <div class="col-md-12">
+      <label for="products" class="form-label">Продукты</label>
+      <select multiple th:field="*{products}" class="form-select" id="products">
+        <option th:each="product : ${products}" th:value="${product.id}" th:text="${product.name}"></option>
+      </select>
+      <div class="text-danger mb-2" th:if="${#fields.hasErrors('products')}" th:errors="*{products}"></div>
+    </div>
+
+    <div class="col-12">
+      <button type="submit" class="btn btn-success">Сохранить заказ</button>
+      <a href="/orders" class="btn btn-secondary">Назад к списку заказов</a>
+    </div>
+  </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
